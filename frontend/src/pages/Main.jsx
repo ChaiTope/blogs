@@ -1,11 +1,12 @@
 import React from 'react'
-import Banner from '../components/Banner'
 import { Container } from 'react-bootstrap'
+
+import Banner from '../components/Banner'
 
 const Main = () => {
   return (
     <Container>
-      <Banner />
+       <Banner />
     </Container>
   )
 }

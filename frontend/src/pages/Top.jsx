@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import Search from '../components/Search'
@@ -7,8 +7,27 @@ const Top = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const handleMouseEnter = () => setShowDropdown(true);
   const handleMouseLeave = () => setShowDropdown(false);
+
+  const [isScrolled, setIsScrolled ] = useState(false);
+
+  const handleScroll = () => {
+    if(window.scrollY > 10) {
+       setIsScrolled(true);
+    }else{
+       setIsScrolled(false);
+    }
+  }
+
+  useEffect(()=>{
+    window.addEventListener("scroll", handleScroll);
+    return ()=>{
+      window.addEventListener("scroll", handleScroll);
+    } 
+  }, []);
+
+
   return (
-    <header className="navigation">
+    <header className={`navigation ${isScrolled ? "scrolled" : ""}`}>
         <Navbar expand="lg" className="bg-transparent">
             <Container>
                 <Navbar.Brand as={Link} to="/"><img src="./images/logo.svg" className="img-logo" /></Navbar.Brand>

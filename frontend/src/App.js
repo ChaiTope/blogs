@@ -9,6 +9,7 @@ import Main from './pages/Main'
 import Post from './pages/Post';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Git from './pages/Git';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
                  <Route index element={<Main />} />
                  <Route path="post" element={<Post />} />
                  <Route path="about" element={<About />} />
+                 <Route path="git" element={<Git />}/>
                  <Route path="contact" element={<Contact />} />
               </Route>
           </Routes>

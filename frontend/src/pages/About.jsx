@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useState , useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { myskills, mytimeline }  from '../data/data'
+import axios from 'axios';
 
 const About = () => {
-  
+  const [myskills, setMyskills] = useState([]);
+  const [mytimelines, setMytimelines] = useState([]);
+  const fetchMyskills = async() => {
+    try{
+      const response = await axios.get("/api/myskills");
+      setMyskills(response.data);
+    }catch(error){
+      console.error("파일을 가져오는 동안 에러가 발생했습니다. ", error);
+    }
+  }
+  const fetchMytimelines = async() => {
+   try{
+     const response = await axios.get("/api/mytimelines");
+     setMytimelines(response.data);
+   }catch(error){
+     console.error("파일을 가져오는 동안 에러가 발생했습니다. ", error);
+   }
+ }
+
+  useEffect(()=>{
+     fetchMyskills();
+  }, []);
+  useEffect(()=>{
+      fetchMytimelines();
+  }, []);
+
   return (
     <Container>
        <Row>
@@ -28,6 +53,7 @@ const About = () => {
 
           </Col>
           <Col md="3" className="gcolor">
+            <h2>My Skills</h2>
              {
                 myskills.map((item, i)=>(
                   <div key={i} className="progress-box">
@@ -43,6 +69,13 @@ const About = () => {
                 ))
              } 
  
+            <h2 className="mt-4">My Timeline</h2>
+            {mytimelines.map((timeline, index) => (
+               <div key={index} className="timeline-item">
+                  <h3>{timeline.jobtitle}</h3>
+                  <p>{timeline.wheres} , {timeline.wdate}</p>
+               </div>
+            ))}
           </Col>
           <Col md="9" className="gcolor">
             <div class="about-me">

@@ -11,6 +11,10 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Git from './pages/Git';
 
+/** 관리자 **/
+import PostWrtie from './pages/admin/PostWrtie';
+
+
 const App = () => {
   return (
    <>
@@ -23,6 +27,7 @@ const App = () => {
                  <Route path="about" element={<About />} />
                  <Route path="git" element={<Git />}/>
                  <Route path="contact" element={<Contact />} />
+                 <Route path="adminwrite" element={<PostWrtie />} />
               </Route>
           </Routes>
 

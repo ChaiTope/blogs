@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 
 const PostWrite = () => {
-
+  const quillRef = useRef(null);
+  const navigate = useNavigate();
   const [ categories, setCategories] = useState([]);
   const [ post, setPost ] = useState('');
   const [ selectedCategory, setSelectedCategory] = useState('');
@@ -13,6 +15,8 @@ const PostWrite = () => {
   const [postContent, setPostContent] = useState('');
   const [inputHashTag, setInputHashTag] = useState('');
   const [hashTags, setHashTags] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [ntime] = useState(Date.now());
 
   const viewCategories = async() => {
      try{
@@ -29,7 +33,7 @@ const PostWrite = () => {
      setPost(value);
   }
 
-  //카테고리 변공
+  //카테고리 변경
   const handleCategoryChange = (e)=>{
       setSelectedCategory(e.target.value);
   }
@@ -38,9 +42,85 @@ const PostWrite = () => {
       setPostTitle(e.target.value);
   }
 
-  const handleContent = (e) => {
-      setPostContent(e.target.value);
+  //Quill 내용 변경
+  const handleContent = (value) => {
+      setPostContent(value);
   }
+
+  const handleFilechange = async (e) => {
+   const files = Array.from(e.target.files);
+   if(files.length === 0) return;
+   try{
+      const formData = new FromData();
+      files.forEach((file)=>{
+         formData.append("files", file);
+      });
+      formData.append("ntime", ntime);
+      
+      const response = await axios.post(`api/posts/${ntime}/files`, formData, {
+         headers : { "Content-Type" : "multipart/form-data"}
+   });
+   }catch(error){
+      console.error('파일 업로드 실패 : ', error);
+      alert("파일 업로드에 실패했습니다.");
+   }
+  }
+
+
+  const handleImageUpload = async() => {
+     const inputFile = document.createElement("input");
+     inputFile.setAttribute("type", "file");
+     inputFile.setAttribute("accept", "image/*");
+     inputFile.click();
+
+     inputFile.addEventListener("change", async()=>{
+        const file = inputFile.files?.[0];
+        if(!file) return; //파일선택이 없을 경우 함수 빠져나가기
+        try{
+
+           //1.formData 생성
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append('ntime', ntime);
+
+           //2.서버로 이미지 업로드
+           const response = await axios.post(`api/posts/${ntime}/files`, formData, {
+                 headers : { "Content-Type" : "multipart/form-data"}
+           });
+
+           //3.반환된 이미지 URL 가져오기
+           const imageUrl = response.data.url;
+
+           //4. Quill에 이미지 삽입
+           const editor = quillRef.current.getEditor();
+           const range = editor.getSelection();
+           editor.insertEmbed(range.index, "image", imageUrl);
+
+        }catch(error){
+          console.error("이미지 업로드중 오류 발생 :" , error );
+          alert("이미지 업로드중 오류가 발생했습니다.");
+        }
+     });
+  }
+
+  //quill 디자인
+  const modules = useMemo(()=>{
+      return {
+         toolbar: {
+            container: [
+               [{ header : [1, 2, false]}],
+               ['bold', 'italic', 'underline', 'strike'],
+               [{ list: 'ordered'}, { list: 'bullet'}],
+               ['link', 'image'],
+               ['clean']
+            ],
+            handlers : {
+               image: handleImageUpload
+            }
+         }
+      }
+  }, []);
+
 
  //빈 값 확인
   const isEmptyValue = (val) => {
@@ -55,7 +135,7 @@ const PostWrite = () => {
 
   const addHashTag = (e)=> {
      const allowdCommand = ['Comma', 'Enter', 'Space', 'NumpadEnter'];
-     const regExp = /[\{\}\[\]\/\?.;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+     const regExp = /[{}[\]/?,;:|)*~`!^\-_+<>@#$%&\\=('"]/g;
      
      if(!allowdCommand.includes(e.code)) return;
      if( isEmptyValue(e.target.value.trim())){
@@ -106,10 +186,35 @@ const PostWrite = () => {
     viewCategories();
   }, []);
 
+  const handleSubmit = async (e) => {
+   e.preventDefault();
+   if(!post || !selectedCategory || !postTitle || !postContent){
+      alert("모든 필드를 입력해 주세요");
+      return;
+   }
+
+   const formData = new FormData();
+   formData.append('post',post);
+   formData.append('category_id',selectedCategory);
+   formData.append('title',postTitle);
+   formData.append('content',postContent);
+   formData.append('hashtags',hashTags.join);
+   formData.append('ntime', ntime);
+
+   try{
+      await axios.post('/api/posts', formData);
+      alert("정상적으로 저장 되었습니다.");
+
+   }catch(error){
+      console.log('에러가 발생했습니다. : ', error);
+      alert("포스트 저장 중 오류가 발생했습니다.");
+   }
+  }
+
   return (
     <Container>
       <h3 className="pt-5 text-center">포스팅</h3> 
-      <form>
+      <form onSubmit={handleSubmit}>
       <Row className="mt-5">
         <Col md="2" className="text-end">포스트</Col>
         <Col md="10">
@@ -151,19 +256,11 @@ const PostWrite = () => {
         <Col md='2' className="mt-3 text-end">내용</Col>
         <Col md="10" className="mt-3">
             <ReactQuill
+               ref={quillRef}
                theme="snow"
-               modules={{
-                  toolbar: [
-                    [{ header: [1, 2, false]}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{ list: 'ordered'}, {list: 'bullet'}],
-                    ['link', 'image'],
-                    ['clean']
-                  ]
-               }}
+               modules={modules}
                value={postContent}
-               onChange={handleContent}
-            />
+               onChange={handleContent} />
         </Col>
         <Col md="2" className="mt-3 text-end">해시태그</Col>
         <Col md="10" className="mt-3">

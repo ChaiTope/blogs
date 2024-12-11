@@ -118,10 +118,10 @@ const PostWrite = () => {
 
      const formData = new FormData();
      formData.append('post', post);
-     formData.append('category_id', selectedCategory);
+     formData.append('category', selectedCategory);
      formData.append('title', postTitle);
      formData.append('content', postContent);
-     formData.append('hashtags', hashTags.join(','));
+     formData.append('hashtag', hashTags.join(','));
      formData.append('ntime', ntime);
 
      try{

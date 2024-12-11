@@ -12,7 +12,7 @@ import Contact from './pages/Contact';
 import Git from './pages/Git';
 
 /** 관리자 **/
-import PostWrtie from './pages/admin/PostWrtie';
+import PostWrite from './pages/admin/PostWrite';
 
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
                  <Route path="about" element={<About />} />
                  <Route path="git" element={<Git />}/>
                  <Route path="contact" element={<Contact />} />
-                 <Route path="adminwrite" element={<PostWrtie />} />
+                 <Route path="adminwrite" element={<PostWrite />} />
               </Route>
           </Routes>
 

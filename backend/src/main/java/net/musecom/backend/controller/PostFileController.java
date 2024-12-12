@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import net.musecom.backend.entity.PostFile;
 import net.musecom.backend.service.PostFileService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -32,7 +31,7 @@ public class PostFileController {
     private PostFileService postFileService;
 
     private static final List<String> ALLOWED_IMAGE_EXT = Arrays.asList("jpg", "jpeg", "png", "gif", "webp");
-    private static final String UPLOAD_DIR = "C:/ChaiYunSung/spring_works/blogs/rontend/public/upload/";
+    private static final String UPLOAD_DIR = "C:/ChaiYunSung/spring_works/blogs/frontend/public/upload/";
 
     //업로드
     @PostMapping
@@ -52,7 +51,7 @@ public class PostFileController {
 
             //새 파일명
             String uuid = UUID.randomUUID().toString();//임의의 문자 생성
-            String newFileName = subDirectory + "_" + uuid + "." + ext;
+            String newFilename = subDirectory + "_" + uuid + "." + ext;
 
             //업로드
             Path uploadPath = Paths.get(UPLOAD_DIR + subDirectory + "/" + ntime.toString());
@@ -61,13 +60,13 @@ public class PostFileController {
             }
 
             //파일 저장
-            Path filePath = uploadPath.resolve(newFileName);
+            Path filePath = uploadPath.resolve(newFilename);
             Files.write(filePath, file.getBytes());
             
             //DB에 저장
             PostFile postFile = new PostFile();
             postFile.setNtime(ntime);
-            postFile.setNfilename(newFileName);
+            postFile.setNfilename(newFilename);
             postFile.setOfilename(originalFileName);
             postFile.setExt(ext);
             postFile.setFsize(file.getSize());
@@ -76,7 +75,7 @@ public class PostFileController {
 
             //응답
             Map<String, Object> res = new HashMap<>();
-            res.put("url", "/upload/" + subDirectory + "/" + ntime + "/" + newFileName);
+            res.put("url", "/upload/" + subDirectory + "/" + ntime + "/" + newFilename);
             return ResponseEntity.ok(res);
 
         }catch(IOException e){

@@ -1,7 +1,5 @@
 package net.musecom.backend.entity;
 
-import java.lang.annotation.Inherited;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +23,7 @@ public class PostFile {
 
     @Column(length=5)
     private String ext;
+    
     private Long fsize;
     
 }

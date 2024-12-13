@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
-import axios from "axios";
+import api from '../components/git'
 
 const Git = () => {
   const [repo, setRepo] = useState([]);
@@ -12,14 +12,11 @@ const Git = () => {
     setLoading(true);
     setError(null);
     try {
-      const token = "your_personal_access_token"; // 여기에 토큰 입력
-      const res = await axios.get("https://api.github.com/users/ChaiTope/repos", {
-        headers: {
-          Authorization: `token ${token}`,
-        },
-      });
-      const langs = Array.from(new Set(res.data.map((repo) => repo.language).filter(Boolean)));
+      const res = await api.get('/users/ChaiTope/repos');
       setRepo(res.data);
+
+      //언어목록 추출
+      const langs = Array.from(new Set(res.data.map((repo) => repo.language).filter(Boolean)));
       setLanguages(langs);
     } catch (err) {
       setError("에러가 발생했습니다.");

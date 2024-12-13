@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.musecom.backend.entity.Post;
+import net.musecom.backend.entity.PostFile;
+import net.musecom.backend.repository.PostFileRepository;
 import net.musecom.backend.repository.PostRepository;
 
 @Service
@@ -15,9 +17,19 @@ public class PostService {
    @Autowired 
    private PostRepository postRepository;
 
+   @Autowired
+   private PostFileRepository postFileRepository;
+
    //crud를 맹글자!!!
    public List<Post> getAllPosts(){
-      return postRepository.findAll();
+
+      List<Post> posts = postRepository.findAll();
+      posts.forEach(post->{
+         Optional<PostFile> firstImg = postFileRepository.findFirstImageByNtime(post.getNtime());
+         post.setFirstImg(firstImg.map(PostFile::getNfilename).orElse(null));
+      });
+
+      return null;
    }
 
    public Optional<Post> getPostByPost(String post){

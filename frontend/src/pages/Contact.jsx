@@ -20,10 +20,10 @@ const Contact = () => {
     e.preventDefault();
     emailjs
       .send(
-        "", // EmailJS 서비스 ID
-        "", // EmailJS 템플릿 ID
+        "ChaiTope", // EmailJS 서비스 ID
+        "template_tra273h", // EmailJS 템플릿 ID
         formData, // 템플릿과 일치하는 데이터 전송
-        "" // EmailJS 사용자 ID
+        "sdAQAFLtXquqnz_qs" // EmailJS 사용자 ID
       )
       .then(
         () => {

@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,6 +47,10 @@ public class Post {
     private Integer empathy;
     
     private String hashtag;
+    
     private Long ntime;
+
+    @Transient
+    private String firstImg;
 
 }

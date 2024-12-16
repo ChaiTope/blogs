@@ -10,6 +10,9 @@ import Post from './pages/Post';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Git from './pages/Git';
+import View from './pages/View';
+
+import { AuthProvider } from './context/AuthContext';
 
 /** 관리자 **/
 import PostWrite from './pages/admin/PostWrite';
@@ -17,7 +20,7 @@ import PostWrite from './pages/admin/PostWrite';
 
 const App = () => {
   return (
-   <>
+   <AuthProvider>
      <AnimatedCursor />
      <Router>
           <Routes>
@@ -27,12 +30,14 @@ const App = () => {
                  <Route path="about" element={<About />} />
                  <Route path="git" element={<Git />}/>
                  <Route path="contact" element={<Contact />} />
+                 <Route path="view/:post" element={<View />} />
+
                  <Route path="adminwrite" element={<PostWrite />} />
               </Route>
           </Routes>
 
      </Router>
-   </>  
+   </AuthProvider>  
   )
 }
 

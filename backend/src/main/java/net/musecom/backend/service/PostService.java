@@ -29,7 +29,7 @@ public class PostService {
          post.setFirstImg(firstImg.map(PostFile::getNfilename).orElse(null));
       });
 
-      return null;
+      return posts;
    }
 
    public Optional<Post> getPostByPost(String post){

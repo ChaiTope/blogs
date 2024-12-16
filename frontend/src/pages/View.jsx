@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useAuthValue } from '../context/AuthContext'
 import KakaoLoginButton from '../components/KakaoLoginButton'
+import NaverLoginButton from '../components/NaverLoginButton'
 
 const View = () => {
     const { post } = useParams();  
@@ -29,6 +30,7 @@ const View = () => {
         {!isLogged ? (
             <div className='loginbutton'>
                 <KakaoLoginButton />
+                <NaverLoginButton />
             </div>
         ):(
             <>

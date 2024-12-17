@@ -1,17 +1,16 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import { Container, Image } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
+import CommentWrtie from './CommentWrtie'
+import Login from './Login'
 import axios from 'axios'
-import { useAuthValue } from '../context/AuthContext'
-import KakaoLoginButton from '../components/KakaoLoginButton'
-import NaverLoginButton from '../components/NaverLoginButton'
 
 const View = () => {
     const { post } = useParams();  
-    const { isLogged, userAuth, role, logout, login } = useAuthValue();
     const [ data, setData ] = useState();
+    const { isAuthenticated, user, login, logout } = useContext(AuthContext);
   
-
   useEffect(() => {
     axios.get(`http://localhost:8080/api/posts/${post}`)
          .then(res => { setData(res.data) })
@@ -27,18 +26,11 @@ const View = () => {
         <h3>{data.title}</h3>
         <div dangerouslySetInnerHTML={{__html:data.content}} />
         <br />
-        {!isLogged ? (
-            <div className='loginbutton'>
-                <KakaoLoginButton />
-                <NaverLoginButton />
-            </div>
-        ):(
-            <>
-            <h4>{userAuth?.name || '사용자'}님 반갑습니다.</h4>
-                { role==='admin' && <p>관리자로 로그인 중</p> }
-            </>
-            )
+
+        {
+          isAuthenticated ? <CommentWrtie user={user} /> : <Login />
         }
+        
     </Container>
   )
 }

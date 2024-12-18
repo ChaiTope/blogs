@@ -17,28 +17,39 @@
 
 ### 🛠 개발 도구
 
-- **IDE**: IntelliJ IDEA, VS Code
-- **버전 관리**: Git, GitHub
+- **IDE**:
+![VS Code](https://img.shields.io/badge/IDE-VS%20Code-blue?logo=visualstudiocode&logoColor=white)
+![IntelliJ](https://img.shields.io/badge/IDE-IntelliJ%20IDEA-orange?logo=intellijidea&logoColor=white)
+- **버전 관리**:
+![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)
 
 ### 🎨 프론트엔드
 
-- React, Redux, Bootstrap
-- Axios, HTML5, CSS3, JavaScript (ES6)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&amp;logo=React&amp;logoColor=black)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=white)
+![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+[![Redux](https://img.shields.io/badge/Redux-764ABC?logo=redux&logoColor=white)](https://redux.js.org/)
+[![Axios](https://img.shields.io/badge/Axios-5A29E4?logo=axios&logoColor=white)](https://axios-http.com/)
 
 ### 🔙 백엔드
 
-- Node.js, Express
-- RESTful API 설계
-- JSON Web Token (JWT)을 활용한 인증
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![RESTful API](https://img.shields.io/badge/RESTful%20API-0000FF?logo=api&logoColor=white)](https://restfulapi.net/)
+[![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)](https://expressjs.com/)
+![Json](https://img.shields.io/badge/JSON-000000?style=flat-square&logo=json&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white)
 
 ### 🗄 데이터베이스
 
-- MySQL
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
 
 ### 🤝 협업 및 테스트 도구
 
-- Postman
-- GitHub
+![PostMan](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=Postman&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)
 
 ---
 
@@ -86,7 +97,7 @@
 
 | ERD | 이미지 |
 | --- | ------ |
-| ERD | ![ERD](./images/erd.png) |
+| ERD | ![ERD](./images/ERD.PNG) |
 
 ---
 

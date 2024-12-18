@@ -129,6 +129,3 @@ dist
 .yarn/install-state.gz
 .pnp.*
 mysql.sql
-
-# images
-images

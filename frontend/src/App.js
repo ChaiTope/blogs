@@ -13,7 +13,6 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import Git from './pages/Git';
 import View from './pages/View';
-import Members from './pages/Members';
 
 import { AuthProvider, AuthContext } from './context/AuthContext';
 
@@ -24,11 +23,11 @@ import PostWrite from './pages/admin/PostWrite';
 const PrivateRoute = ({children, adminOnly = false}) => {
   const { isAuthenticated, user} = useContext(AuthContext);
 
-  if(!isAuthenticated) {//로그인이 안돼어있을 때 로그인 페이지
-    return <Navigate to="/login" replace />;
+  if(!isAuthenticated) {  //로그인 안되어 있으면 로그인 페이지
+      return <Navigate to="/login" replace />;
   }
 
-  if(adminOnly && user.role ==='admin'){
+  if(adminOnly && user.role === 'admin') {
     return <Navigate to="/" replace />;
   }
 
@@ -51,11 +50,10 @@ const App = () => {
                   <Route path="view/:post" element={<View />} />
                   <Route path="login" element={<Login />} />
                   <Route path="postwrite" element={
-                    <PrivateRoute adminOnly={true}>
+                    // <PrivateRoute adminOnly={true}>
                       <PostWrite />
-                    </PrivateRoute>
+                    // </PrivateRoute>
                     } />
-                  <Route path="members" element={<Members />} />
                 </Route>
             </Routes>
 
